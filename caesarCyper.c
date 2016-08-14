@@ -9,14 +9,21 @@ void encrypt(int shift) {
 	printf("Please enter the string to encrypt \n");
 	fgets(stringToEncrypt, sizeof(stringToEncrypt), stdin);
 
-	printf("%s\n", stringToEncrypt );
 	int i = 0;
-	for(i = 0; i < strlen(stringToEncrypt) -1; i++)
+	for(i = 0; i < strlen(stringToEncrypt); i++)
 	{
-		if(stringToEncrypt[i] == ' ')
+		if(stringToEncrypt[i] < 97 ||  stringToEncrypt[i] > 122)
 			continue;
-		stringToEncrypt[i] = ((stringToEncrypt[i] - 'a' + shift) % 26) + 'a';
 
+
+		char c = ((stringToEncrypt[i] - 'a' + shift) % 26);
+
+		if(c  < 0)
+		{
+			c = 26 - c;
+		}
+
+		stringToEncrypt[i] =  c + 'a';
 	}
 
 	printf("Encrypted String is: %s\n",stringToEncrypt);
@@ -29,10 +36,10 @@ void decrypt(int shift) {
 	fgets(stringToDecrypt, sizeof(stringToDecrypt), stdin);
 
 	int i = 0;
-	for(i = 0; i < strlen(stringToDecrypt) - 1; i++)
+	for(i = 0; i < strlen(stringToDecrypt); i++)
 	{
 
-		if(stringToDecrypt[i] == ' ')
+		if(stringToDecrypt[i] < 97 ||  stringToDecrypt[i] > 122)
 			continue;
 
 		char c = ((stringToDecrypt[i] - 'a' - shift));	
@@ -54,14 +61,14 @@ int main() {
 
 
 	char method [1];
-	char shift [1];
+	char shift [3];
 
 	printf("Please enter e for encrypt, or d for decrypt\n");
 	scanf("%c",method);
 	getchar();
 
 	printf("Please enter shift char\n");
-	scanf("%c",shift);
+	fgets(shift, sizeof(shift), stdin);
 	getchar();
 
 	if(*method == 'e') 
